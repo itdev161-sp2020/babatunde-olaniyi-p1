@@ -9,32 +9,44 @@ import blogPost from '../../data/blog.json';
 **/
 
 const BlogPost=(props) => {
-    const[post, setPost] = useState({});
+
+    const[post, setPost] = useState({
+        id: "" ,
+        blogCategory: "",
+        blogTitle : "",
+        slug: "" ,
+        postedOn: "" ,
+        author: "",
+        blogImage: "" ,
+        blogText: ""
+    });
+    const[postId,setPostId] = useState('');
 
 useEffect(()=>{
 
-    const postId = props.match.params.postId;
-  const post = blogPost.data.find(post => post.id==postId);
+  const postId = props.match.params.postId;
+  const post = blogPost.data.find(post=> post.id==postId);
   setPost(post);
-},post);
+  setPostId(postId)
+},[post,props.match.params.postId]);
 
-
+if(post.blogImage=="") return null
   return(
      <div className="blogPostContainer">
        <Card>
            <div  className="blogHeader">
-           <span className="blogCategory">Featured</span>
+           <span className="blogCategory">{post.blogCategory}</span>
            <h1 className="postTitle">{post.blogTitle}</h1>
-           <span className="postedBy">posted on July21, 2016 bySora blogging Tips</span>
+           <span className="postedBy">posted on {post.postedOn} by{post.author}</span>
            </div>
 
            <div className="postImageContainer">
-            <img src={require('../../blogPostImages/memories-from.jpg')} alt="Post Image"/>
+            <img src={require('../../blogPostImages/' + post.blogImage)} alt="Post Image"/>
            </div>
 
         <div className="postContent">
-           <h3>Post Title</h3>
-           <p>lorem ipsim</p>
+       <h3>{post.blogTitle}</h3>
+           <p>{post.blogText}</p>
         </div>
 
            </Card>
