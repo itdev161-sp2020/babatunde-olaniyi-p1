@@ -1,30 +1,42 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import './style.css';
 import Card from '../UI/Card';
+import blogPost from '../../data/blog.json';
 
 /**
 * @author
 * @function BlogPost
 **/
 
-const BlogPost = (props) => {
+const BlogPost=(props) => {
+    const[post, setPost] = useState({});
+
+useEffect(()=>{
+
+    const postId = props.match.params.postId;
+  const post = blogPost.data.find(post => post.id==postId);
+  setPost(post);
+},post);
+
+
   return(
      <div className="blogPostContainer">
        <Card>
            <div  className="blogHeader">
            <span className="blogCategory">Featured</span>
-           <h1 className="postTitle">Beautiful is always beautiful</h1>
+           <h1 className="postTitle">{post.blogTitle}</h1>
            <span className="postedBy">posted on July21, 2016 bySora blogging Tips</span>
            </div>
 
            <div className="postImageContainer">
             <img src={require('../../blogPostImages/memories-from.jpg')} alt="Post Image"/>
            </div>
+
         <div className="postContent">
            <h3>Post Title</h3>
            <p>lorem ipsim</p>
         </div>
-        
+
            </Card>
          </div>
     
